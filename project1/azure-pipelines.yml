@@ -1,5 +1,10 @@
 pool:
     vmImage: 'ubuntu-latest'
-steps:
-    - script: |
-        echo "Hello World"
+
+stages:
+- stage: 'Build'
+  jobs:
+  - template: ../templates/gradle.yml
+    parameters:
+      workingDirectory: 'project1'
+extends: ../templates/store_blob.yml
