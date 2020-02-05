@@ -31,7 +31,19 @@ stages:
       - script: az devops configure --defaults organization=$(AZ_ORGANIZATION) project=$(AZ_PROJECT) --use-git-aliases true
         displayName: 'Set default Azure DevOps organization and project'
       - script: |
-            az pipelines list
+            set +e ; for fn in $(find . -name "azure-pipelines.yml"); do
+            pipeline_ini_base=${fn%.*}
+            INI_CONTENT=$(sed "s/;/#/g;s/\\s*=\\s*/=/g;/\\[/d" ${pipeline_ini_base}.ini)
+            eval "$INI_CONTENT"
+            az pipelines list | grep -E "\\"name\\":\\s\\"${pipeline_name}\\","
+            if [ $? -ne 0 ]; then
+                az pipelines create --name $pipeline_name --description "$pl_description" --service-connection $(AZ_REPO_ENDPOINT_ID) \
+                --repository $(Build.Repository.Uri) --branch $(Build.SourceBranchName) --yml-path $fn
+            else
+                pid=$(az pipelines list --name $pipeline_name --query  "[].id[]" | grep -E -v "\\[|\\]")
+                az pipelines update --id $pid --description "$pl_description" --yml-path $fn
+            fi
+            done
 
 
 
