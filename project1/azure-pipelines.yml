@@ -8,4 +8,4 @@ stages:
   - template: ../templates/gradle.yml
     parameters:
       workingDirectory: 'project1'
-extends: ../templates/store_blob.yml
+- template: ../templates/store_blob.yml

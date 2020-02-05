@@ -1,3 +1,4 @@
+stages:
 - stage: ArchiveArtifacts
   pool:
     vmImage: windows-latest
