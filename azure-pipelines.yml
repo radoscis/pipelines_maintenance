@@ -26,7 +26,7 @@ stages:
         displayName: 'Install Azure DevOps Extension'
       - script: echo ${AZURE_DEVOPS_CLI_PAT} | az devops login
         env:
-          AZURE_DEVOPS_CLI_PAT: $(System.AccessToken)
+          AZURE_DEVOPS_CLI_PAT: $(AZ_PAT)
         displayName: 'Login Azure DevOps Extension'
       - script: az devops configure --defaults organization=$(AZ_ORGANIZATION) project=$(AZ_PROJECT) --use-git-aliases true
         displayName: 'Set default Azure DevOps organization and project'
@@ -38,9 +38,12 @@ stages:
             az pipelines list | grep -E "\\"name\\":\\s\\"${pipeline_name}\\","
             if [ $? -ne 0 ]; then
                 echo "params = $pipeline_name , $pl_description,  $(AZ_REPO_ENDPOINT_ID), $(Build.Repository.Uri) , $(Build.SourceBranchName)"
+                az pipelines create --name $pipeline_name --description "$pl_description" --service-connection $(AZ_REPO_ENDPOINT_ID) \
+                --repository $(Build.Repository.Uri) --branch $(Build.SourceBranchName) --yml-path $fn
             else
                 pid=$(az pipelines list --name $pipeline_name --query  "[].id[]" | grep -E -v "\\[|\\]")
                 echo "params = $pid, $pipeline_name , $pl_description,  $(AZ_REPO_ENDPOINT_ID), $(Build.Repository.Uri) , $(Build.SourceBranchName)"
+                az pipelines update --id $pid --description "$pl_description" --yml-path $fn
             fi
             done
 
