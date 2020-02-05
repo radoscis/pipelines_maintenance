@@ -32,15 +32,8 @@ stages:
         displayName: 'Set default Azure DevOps organization and project'
   - job: Create_or_update_pipelines
     steps:
-    - task: AzureCLI@2
-      displayName: Find yml files and create
-      inputs:
-        azureSubscription: 'rcAzureRMConnection'
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az pipelines list
-
+    - script: |
+        az pipelines list
 
 
 
