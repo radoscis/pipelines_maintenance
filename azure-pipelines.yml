@@ -8,7 +8,7 @@ variables:
 stages:
 - stage: Add and configure AZ DevOps extension
   jobs:
-  - job: Add and configure AZ DevOps extension
+  - job: Add_and_configure_AZ_DevOps_extension
     steps:
         # Updating the python version available on the linux agent
       - task: UsePythonVersion@0
