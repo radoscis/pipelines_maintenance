@@ -31,8 +31,16 @@ stages:
         displayName: 'Login Azure DevOps Extension'
       - script: az devops configure --defaults organization=$(AZ_ORGANIZATION) project=$(AZ_PROJECT) --use-git-aliases true
         displayName: 'Set default Azure DevOps organization and project'
-
-
+    - job: Create_or_update_pipelines
+      steps:
+        - task: AzureCLI@2
+          displayName: Find yml files and create
+          inputs:
+            azureSubscription: 'rcAzureRMConnection'
+            scriptType: bash
+            scriptLocation: inlineScript
+            inlineScript: |
+                az pipelines list
 
 
 
