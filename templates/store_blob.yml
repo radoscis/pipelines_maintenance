@@ -1,0 +1,23 @@
+- stage: ArchiveArtifacts
+  pool:
+    vmImage: windows-latest
+  jobs:
+  - job: 'ArchiveJob'
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: gradleBuild
+        patterns: '**/*.jar'
+    - script: 'echo "Pipeline.Workspace = $(Pipeline.Workspace)" ; ls -al $(Pipeline.Workspace)'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(Pipeline.Workspace)/libs'
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    - task: AzureFileCopy@3
+      inputs:
+        sourcePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        Destination: 'AzureBlob'
+        azureSubscription: 'rcAzureRMConnection'
+        storage: 'azurepocstorageforgradle'
+        ContainerName: 'azurepocscontainerforgradle'
