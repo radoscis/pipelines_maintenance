@@ -2,12 +2,13 @@ parameters:
 - name: workingDirectory
   type: string
   default: ''
+
 jobs:
     - job: BuildJob
       steps:
       - task: Gradle@2
         inputs:
-          workingDirectory: ${{ workingDirectory }}
+          workingDirectory: ${{ parameters.workingDirectory }}
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
