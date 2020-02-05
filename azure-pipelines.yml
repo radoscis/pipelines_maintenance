@@ -6,7 +6,7 @@ variables:
     - group: DEFAULT_PROJECT_SETTINGS
 
 stages:
-- stage: Add and configure AZ DevOps extension
+- stage: Add_and_configure_AZ_DevOps_extension
   jobs:
   - job: Add_and_configure_AZ_DevOps_extension
     steps:
