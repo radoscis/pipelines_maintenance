@@ -31,7 +31,7 @@ stages:
       - script: az devops configure --defaults organization=$(AZ_ORGANIZATION) project=$(AZ_PROJECT) --use-git-aliases true
         displayName: 'Set default Azure DevOps organization and project'
       - script: |
-            set +e ; for fn in $(find . -name "azure-pipelines.yml"); do
+            set +e ; for fn in $(find . -mindepth 2 -name "azure-pipelines.yml"); do
             pipeline_ini_base=${fn%.*}
             INI_CONTENT=$(sed "s/;/#/g;s/\\s*=\\s*/=/g;/\\[/d" ${pipeline_ini_base}.ini)
             eval "$INI_CONTENT"
