@@ -34,10 +34,10 @@ stages:
     - task: AzureCLI@2
         displayName: Find yml files and create
         inputs:
-        azureSubscription: 'rcAzureRMConnection'
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
+          azureSubscription: 'rcAzureRMConnection'
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
             az pipelines list
 
 
