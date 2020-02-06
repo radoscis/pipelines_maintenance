@@ -3,6 +3,7 @@ pool:
     vmImage: 'ubuntu-latest'
 variables:
 - group: GitHub
+- group: DEFAULT_PROJECT_SETTINGS
 
 stages:
 - stage: 'Build'
