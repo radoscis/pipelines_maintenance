@@ -17,3 +17,5 @@ stages:
 - template: ../templates/store_blob.yml
   parameters:
     azSubRmConnection: "$(AZ_RM_CONNECTION)"
+    azContainerRegistryName: "$(rcDevOpsContainerRegistry)"
+    azContainerRegistryName: "$(AZ_CONTAINER_REGISTRY_NAME)"
