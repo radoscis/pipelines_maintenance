@@ -50,5 +50,5 @@ jobs:
           tasks: '${{ parameters.workingDirectory }}:release'
       - task: PublishPipelineArtifact@1
         inputs:
-          path: $(System.DefaultWorkingDirectory)/build
+          path: $(System.DefaultWorkingDirectory)/${{ parameters.workingDirectory }}/build
           artifact: gradleBuild
