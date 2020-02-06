@@ -1,3 +1,8 @@
+parameters:
+  - name: azSubRmConnection
+    type: string
+    default: ''
+
 stages:
 - stage: ArchiveArtifacts
   pool:
@@ -19,6 +24,6 @@ stages:
       inputs:
         sourcePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         Destination: 'AzureBlob'
-        azureSubscription: 'rcAzureRMConnection'
+        azureSubscription:  '${{ parameters.azSubRmConnection }}'
         storage: 'azurepocstorageforgradle'
         ContainerName: 'azurepocscontainerforgradle'
