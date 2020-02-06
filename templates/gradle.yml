@@ -7,6 +7,7 @@ jobs:
     - job: BuildJob
       steps:
       - checkout: self
+        submodules: true
       # Allow scripts to access the system token so that the pipeline can push git changes (eg. version bump)
         persistCredentials: true
       # Checkout branch since by default Azure Pipelines do checkouts of specific commits (detached HEAD)
@@ -25,15 +26,15 @@ jobs:
         displayName: "Checkout branch"
       - task: Gradle@2
         inputs:
-          workingDirectory: ${{ parameters.workingDirectory }}
+          workingDirectory: ''
           gradleWrapperFile: 'gradlew'
           gradleOptions: '-Xmx3072m'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.8'
           jdkArchitectureOption: 'x64'
-          publishJUnitResults: true
+          publishJUnitResults: false
           testResultsFiles: '**/TEST-*.xml'
-          tasks: 'release'
+          tasks: '${{ parameters.workingDirectory }}:release'
       - task: PublishPipelineArtifact@1
         inputs:
           path: $(System.DefaultWorkingDirectory)/build
