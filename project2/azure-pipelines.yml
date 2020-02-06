@@ -1,11 +1,20 @@
 trigger: none
 pool:
     vmImage: 'ubuntu-latest'
+variables:
+- group: GitHub
+- group: DEFAULT_PROJECT_SETTINGS
 
 stages:
 - stage: 'Build'
   jobs:
   - template: ../templates/gradle.yml
     parameters:
-      workingDirectory: 'project1'
+      workingDirectory: 'project2'
+      gitCiToken: "$(GH_TOKEN)"
+      gitCiUserMail: "$(GH_USER_MAIL)"
+      gitCiUserName: "$(GH_USER_NAME)"
 - template: ../templates/store_blob.yml
+  parameters:
+    azSubRmConnection: "$(AZ_RM_CONNECTION)"
+    azContainerRegistryName: "$(AZ_CONTAINER_REGISTRY_NAME)"
