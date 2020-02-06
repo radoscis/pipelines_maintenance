@@ -16,12 +16,12 @@ jobs:
       - powershell: write-host "##vso[task.setvariable variable=branch]$($env:BUILD_SOURCEBRANCH.substring($env:BUILD_SOURCEBRANCH.indexOf('/', 5) + 1))"
         displayName: "Extract the branch name"
       - script: |
-        sudo apt-get update
-        sudo apt-get -y install tree
-        git checkout $(branch)
-        git status
-        ls -l /home/vsts/work/1/s
-        tree /home/vsts/work/1/s
+          sudo apt-get update
+          sudo apt-get -y install tree
+          git checkout $(branch)
+          git status
+          ls -l /home/vsts/work/1/s
+          tree /home/vsts/work/1/s
         displayName: "Checkout branch"
       - task: Gradle@2
         inputs:
