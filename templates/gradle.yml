@@ -2,6 +2,15 @@ parameters:
 - name: workingDirectory
   type: string
   default: ''
+- name: gitCiToken
+  type: string
+  default: ''
+- name: gitCiUserMail
+  type: string
+  default: ''
+- name: gitCiUserName
+  type: string
+  default: ''
 
 jobs:
     - job: BuildJob
@@ -16,6 +25,10 @@ jobs:
       # (eg. 'refs/heads/feature/feat-a' becomes 'feature/feat-a').
       - powershell: write-host "##vso[task.setvariable variable=branch]$($env:BUILD_SOURCEBRANCH.substring($env:BUILD_SOURCEBRANCH.indexOf('/', 5) + 1))"
         displayName: "Extract the branch name"
+      - script: |
+          git config --global user.email "${{ parameters.gitCiUserMail }}"
+          git config --global user.name "${{ parameters.gitCiUserName }}"
+        displayName: "Configure git"
       - script: |
           sudo apt-get update
           sudo apt-get -y install tree
