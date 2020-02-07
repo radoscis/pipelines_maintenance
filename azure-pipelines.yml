@@ -35,7 +35,7 @@ stages:
             pipeline_ini_base=${fn%.*}
             INI_CONTENT=$(sed "s/;/#/g;s/\\s*=\\s*/=/g;/\\[/d" ${pipeline_ini_base}.ini)
             eval "$INI_CONTENT"
-            az pipelines list | grep -E "\\"name\\":\\s\\"${pipeline_name}\\","
+            az pipelines list | grep -E "\"name\":\s\"${pipeline_name}\","
             if [ $? -ne 0 ]; then
                 echo "params = $pipeline_name , $pl_description,  $(AZ_REPO_ENDPOINT_ID), $(Build.Repository.Uri) , $(Build.SourceBranchName)"
                 az pipelines create --name $pipeline_name --description "$pl_description" --service-connection $(AZ_REPO_ENDPOINT_ID) \
